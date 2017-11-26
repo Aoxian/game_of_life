@@ -58,6 +58,22 @@ module GameOfLife
                                   [1, 1, 0],
                                   [0, 1, 0]]
 
+      @cell_with_4_neighbours  = [[0, 1, 0],
+                                  [1, 1, 1],
+                                  [0, 1, 0]]
+
+      @cell_with_5_neighbours  = [[1, 1, 0],
+                                  [1, 1, 1],
+                                  [0, 1, 0]]
+
+      @cell_with_6_neighbours  = [[1, 1, 0],
+                                  [1, 1, 1],
+                                  [1, 1, 0]]
+
+      @cell_with_7_neighbours  = [[1, 1, 1],
+                                  [1, 1, 1],
+                                  [1, 1, 0]]
+
       @full_tiny_world         = [[1, 1, 1],
                                   [1, 1, 1],
                                   [1, 1, 1]]
@@ -161,6 +177,32 @@ module GameOfLife
       end
 
     end
+
+    context "Rule#3: Any live cell with more than three live neighbours dies, as if by overpopulation." do
+
+      it "A world with one live cell, and four neighbours dies." do
+        next_world = @game.play(@cell_with_4_neighbours)
+        expect(@game.cell_is_alive?(1, 1, next_world)).to eq(false)
+      end
+      it "A world with one live cell, and five neighbours dies." do
+        next_world = @game.play(@cell_with_5_neighbours)
+        expect(@game.cell_is_alive?(1, 1, next_world)).to eq(false)
+      end
+      it "A world with one live cell, and six neighbours dies." do
+        next_world = @game.play(@cell_with_6_neighbours)
+        expect(@game.cell_is_alive?(1, 1, next_world)).to eq(false)
+      end
+      it "A world with one live cell, and seven neighbours dies." do
+        next_world = @game.play(@cell_with_7_neighbours)
+        expect(@game.cell_is_alive?(1, 1, next_world)).to eq(false)
+      end
+      it "A world with one live cell, and eight neighbours dies." do
+        next_world = @game.play(@full_tiny_world)
+        expect(@game.cell_is_alive?(1, 1, next_world)).to eq(false)
+      end
+    end
+
+    context "Rule#4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction."
   end
 end
 

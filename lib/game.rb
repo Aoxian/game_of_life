@@ -6,8 +6,12 @@ module GameOfLife
         new_row = []
         row.each_with_index do |cell, column_index|
           # puts "(#{row_index},#{column_index}) => [#{cell},#{neighbour_count(row_index, column_index, world)}]"
+          live_neighbours = neighbour_count(row_index, column_index, world)
           new_cell = 0
-          new_cell = 1 if cell == 1 && neighbour_count(row_index, column_index, world) > 1
+          new_cell = 0 if cell == 1 && live_neighbours < 2
+          new_cell = 1 if cell == 1 && (live_neighbours == 2 || live_neighbours == 3)
+          new_cell = 0 if cell == 1 && live_neighbours > 3
+          new_cell = 1 if cell == 0 && live_neighbours == 3
           new_row << new_cell
         end
         next_world << new_row
