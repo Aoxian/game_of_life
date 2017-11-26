@@ -4,15 +4,15 @@ module GameOfLife
     ALIVE = 1
 
     def tick!(world_map)
-      new_world_map = []
+      new_map = []
       world_map.each_with_index do |row, row_index|
         new_row = []
         row.each_with_index do |cell, column_index|
           new_row << new_cell(cell, neighbour_count(row_index, column_index, world_map))
         end
-        new_world_map << new_row
+        new_map << new_row
       end
-      new_world_map
+      new_map
     end
 
     def cell_is_alive?(row, column, world)
@@ -34,18 +34,11 @@ module GameOfLife
     private
 
     def new_cell(cell, living_neighbours)
-      case
-        when cell_has_fewer_than_two(living_neighbours, cell)
-          DEAD
-        when cell_has_two_or_three(living_neighbours, cell)
-          ALIVE
-        when cell_has_more_than_three(living_neighbours, cell)
-          DEAD
-        when dead_cell_with_exactly_three(living_neighbours, cell)
-          ALIVE
-        else
-          DEAD
-      end
+      return DEAD if cell_has_fewer_than_two(living_neighbours, cell)
+      return ALIVE if cell_has_two_or_three(living_neighbours, cell)
+      return DEAD if cell_has_more_than_three(living_neighbours, cell)
+      return ALIVE if dead_cell_with_exactly_three(living_neighbours, cell)
+      DEAD
     end
 
     def cell_has_fewer_than_two(living_neighbours, cell)

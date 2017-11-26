@@ -231,7 +231,6 @@ module GameOfLife
     end
 
     context 'Rule#4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.' do
-
       it 'Dead cell with no neighbours, nothing happens.' do
         new_map = @world.tick!(@empty_tiny_world)
         expect(@world.cell_is_alive?(1, 1, new_map)).to eq(false)
@@ -276,6 +275,58 @@ module GameOfLife
         new_map = @world.tick!(@dead_cell_with_8_neighbours)
         expect(@world.cell_is_alive?(1, 1, new_map)).to eq(false)
       end
+    end
+
+    context 'Common Patterns' do
+      context 'Still Lifes' do
+
+        def is_still_life?(map)
+          new_map = @world.tick!(map)
+          expect(new_map).to eq(map)
+        end
+
+        it 'Block' do
+          is_still_life?([[0, 0, 0, 0],
+                          [0, 1, 1, 0],
+                          [0, 1, 1, 0],
+                          [0, 0, 0, 0]])
+        end
+
+        it 'Beehive' do
+          is_still_life?([[0, 0, 0, 0, 0, 0],
+                          [0, 0, 1, 1, 0, 0],
+                          [0, 1, 0, 0, 1, 0],
+                          [0, 0, 1, 1, 0, 0],
+                          [0, 0, 0, 0, 0, 0]])
+        end
+
+        it 'Loaf' do
+          is_still_life?([[0, 0, 0, 0, 0, 0],
+                          [0, 0, 1, 1, 0, 0],
+                          [0, 1, 0, 0, 1, 0],
+                          [0, 0, 1, 0, 1, 0],
+                          [0, 0, 0, 1, 0, 0],
+                          [0, 0, 0, 0, 0, 0]])
+        end
+
+        it 'Boat' do
+          is_still_life?([[0, 0, 0, 0, 0],
+                          [0, 1, 1, 0, 0],
+                          [0, 1, 0, 1, 0],
+                          [0, 0, 1, 0, 0],
+                          [0, 0, 0, 0, 0]])
+        end
+
+        it 'Tub' do
+          is_still_life?([[0, 0, 0, 0, 0],
+                          [0, 0, 1, 0, 0],
+                          [0, 1, 0, 1, 0],
+                          [0, 0, 1, 0, 0],
+                          [0, 0, 0, 0, 0]])
+        end
+      end
+      context 'Oscillators'
+      context 'Spaceships'
     end
   end
 end
