@@ -147,5 +147,20 @@ module GameOfLife
         expect(@game.play(@cell_with_n_neighbour)).to eq(@empty_tiny_world)
       end
     end
+
+    context "Rule#2: Any live cell with two or three live neighbours lives on to the next generation." do
+
+      it "A world with one live cell, and two neighbours lives." do
+        next_world = @game.play(@cell_with_2_neighbours)
+        expect(@game.cell_is_alive?(1, 1, next_world)).to eq(true)
+      end
+
+      it "A world with one live cell, and three neighbours lives." do
+        next_world = @game.play(@cell_with_3_neighbours)
+        expect(@game.cell_is_alive?(1, 1, next_world)).to eq(true)
+      end
+
+    end
   end
 end
+
